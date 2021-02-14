@@ -5,7 +5,7 @@ const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 
-// const db = require("./models");
+const db = require("./models");
 
 const app = express();
 
@@ -16,16 +16,13 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
-// =============
-app.get("/stats", (req, res) => {
-  res.sendFile(path.join(__dirname + "/public/stats.html"));
-});
 
-app.get("/exercise", (req, res) => {
-  res.sendFile(path.join(__dirname + "/public/exercise.html"));
-});
+// Routes
+
+require("./routes/html-routes.js")(app);
+require("./routes/api-workout-routes.js")(app);
 
 // =============
 
